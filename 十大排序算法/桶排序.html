@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+         * 算法描述
+         * 设置一个定量的数组当作空桶
+         * 遍历输入数据，找到数组中的最大值，并且计算出一个阈值，
+         * 根据这个阈值把数据一个一个放到对应的桶里
+         * 对每个不是空的桶进行排序
+         * 从不是空的通力八排好序的数据拼接起来
+        */
+
+        // 原始数组
+        var arr = [7, 36, 65, 56, 33, 60, 110, 42, 42, 94, 59, 22, 83, 84, 63, 77, 67, 101];
+
+        /*
+         * @{params}    arr             原始数组
+         * @{params}    bucket_num      桶个数
+         * @{return}    result          返回数组
+        */
+
+        function bucketSort(arr, bucket_num) {
+
+            var len = arr.length, bucket_arr = [];
+
+            if( len <= 1 ) { return arr;}
+
+            for( var i = 1; i < len; i++ ) {
+                var max = arr[0], min = arr[0];
+                if( arr[i] > max ) {
+                    max = arr[i];
+                }
+                if( arr[i] < min ) {
+                    min = arr[i]
+                }
+            }
+
+            var range = ( max - min + 1 )/bucket_num;
+
+            for( var j = 0; j < len; j++ ) {
+                var index = Math.floor(( arr[j] - min )/range);
+                if( !bucket_arr[index] ) {
+                    bucket_arr[index] = [];
+                    bucket_arr[index].push(arr[j])
+                }else {
+                    var bucket_len = bucket_arr[index].length - 1;
+                
+                    while( bucket_len >= 0 && arr[j] < bucket_arr[index][bucket_len] ) {
+                            bucket_arr[index][bucket_len + 1] = bucket_arr[index][bucket_len];
+                            bucket_len--;
+                    }
+
+                    bucket_arr[index][bucket_len + 1] = arr[j];
+                }
+                
+            }
+
+            var result = [], n = 0;
+
+            while( n < bucket_num ) {
+                
+                    result =  result.concat(bucket_arr[n++]);
+      
+            }
+
+            return result
+        }
+
+        console.log(bucketSort(arr, 10));
+    </script>
+</body>
+</html>

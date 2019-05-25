@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            * 定义 链表是一组节点的集合， 每个节点都使用一个对象的引用来指向它的后一个节点
+        */
+
+        /*
+                单向链表
+        */
+        // 创建一个节点
+        function Node( element ) {
+            // 当前节点元素
+            this.element = element;
+            // 下一个节点链接
+            this.next = null;
+        }
+
+        function LList() {
+            // 头节点
+            this.head = new Node('head');
+            this.find = find;
+            this.insert = insert;
+            this.findPre = findPre;
+            this.remove = remove;
+
+        }
+
+        // 查找一个节点
+        function find( item ) {
+            var curElement = this.head;
+            while( item != curElement.element ) {
+                curElement = curElement.next;
+            }
+            return curElement;
+        }
+
+        // 插入一个节点
+        function insert( item, index ) { 
+            var curElement = this.find(index);
+            var newNode = new Node(item);
+            newNode.next = curElement.next;
+            curElement.next = newNode;
+        }
+
+        //显示所有节点
+        function display() {
+            var curElement = this.head;
+            while( curElement.next != null ) {
+                console.log(curElement.element);
+                curElement = curElement.next;
+            }
+        }
+
+        // 查找前一个节点
+        function findPre( item ) {
+            var curElement = this.head;
+            while( curElement.next != null && item != curElement.next.element ) {
+                curElement = curElement.next;
+            }
+            return curElement;
+        }
+
+        // 删除一个节点
+        function remove( item ) {
+            var preNode = this.findPre(item);
+            var curElement = this.find(item);
+            preNode.next = curElement.next;
+        }
+
+        const llist = new LList();
+       
+        llist.insert('play', 'head');
+        llist.insert('eat', 'play');
+        // llist.remove('play');
+        console.log('llist', llist);
+
+        /*
+            单项链表反转
+        */
+
+        function reverse(arr) {
+            var node = arr.head;
+            while(node.next) {
+                node = node.next;
+            }
+        }
+
+    </script>
+</body>
+</html>

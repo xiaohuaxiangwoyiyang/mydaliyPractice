@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        /*
+            * @ param {fn}  要执行的函数
+            * @ param {wait} 执行需要等待的时间
+            * @ param {flag} true: 为第一次就立即执行 ， false: 为等待一段时间后再执行
+        */
+       // 防抖
+        function debounce(fn, wait, flag) {
+            var timer;
+            var _self = this;
+            clearTimeout(timer);
+            return function() {
+                if(flag) {
+                    var callNow = !timer;
+                    timer = setTimeout(function(){
+                        timer = null
+                    }, wait);
+                    if(callNow) {
+                        fn.call(_self)
+                    }
+                }else {
+                    timer = setTimeout(function() {
+                        fn.call(_self)
+                    }, wait);
+                }
+            }
+        }  
+        
+        // 节流
+        function throttle(fn, wait) {
+            var previous = 0;
+            return function() {
+                var now = Date.now();
+                if(now - previous  > wait) {
+                    fn.call(this);
+                    previous = now;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

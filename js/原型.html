@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        /*
+            * ES5与ES6实现继承的区别
+            * （1）ES5的继承实质上是先创建子类的实例对象，然后再将父类的方法添加到this上(Parent.call(this));
+            *      ES6的继承实质上是先创建父类的实例对象this（所以必须先调用父类的super()方法），然后再用子类的构造函数修改this
+            * （2）ES5的继承通过原型或构造函数机制实现  
+            *      ES6通过class关键字定义类，类之间通过extends关键字实现继承  
+        */
+
+
+        function Parent() {
+            this.flag = true;
+        }  
+        
+        Parent.prototype.doSomthing = function() {
+
+        }
+
+        function Child() {
+            Parent.call(this);
+            this.childFlag = false;
+        }
+
+        // 创建一个原型为 o 的新对象
+        function object(o) {
+            function F() {};
+            F.prototype = o;
+            return new F();
+        }
+
+        /*
+            * 通用方法实现子类继承父类
+            * @param {function} child 子类构造函数
+            * @param {function} father 被继承的父类构造函数
+        */
+        function inheritPrototype(child, father) {
+            // 创建一个指定原型的对象
+            var prototype = object(father.prototype);
+            // 增强对象
+            prototype.constructor = child;
+            // 子类的原型等于该对象
+            child.prototype = prototype;
+        }
+
+        inheritPrototype(Child, Parent);
+
+        Child.prototype.todo = function() {
+
+        }
+
+
+
+        var child = new Child();
+        console.log('child', child);
+
+
+        class A {
+            constructor() {
+                this.name = 'xiaohua'
+            }
+
+            play() {
+
+            }
+            // 定义在父类的静态方法，可以被子类继承
+            static eat() {
+
+            }
+        }
+
+        class B extends A {
+            constructor(props) {
+                super(props);
+                this.age = '33'
+            }
+            
+            // 相当于prototype上定义的方法
+            run() {
+
+            }
+
+            // 定义B的静态方法，不能被实例继承
+            static jump() {
+
+            }
+        }
+
+        const b = new B();
+        /*
+            B.__proto__ = A
+            B.prototype.__proto__ = A.prototype
+        */
+        console.log('b', b);
+    </script>
+</body>
+</html>

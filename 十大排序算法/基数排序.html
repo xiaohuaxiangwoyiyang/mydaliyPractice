@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        /*
+         *  算法描述
+         *   (1) 取得数组中的最大数，并取得位数；
+         *   (2) arr为原始数组，从最低为开始取每个位组成counter数组
+         *   (3) 对counter进行计数排序（利用计数排序适用于小范围数的特点）
+        */
+
+
+        // 已知数组最大位数
+
+        var arr = [7, 36, 65, 56, 33, 60, 110, 42, 42, 94, 59, 22, 83, 84, 63, 77, 67, 101];
+
+        /*
+         * @{params}  arr    原始数组
+         * @{params}  maxDigit  最大位数
+         * @{return}  arr    得到的排序数组
+        */
+        function radixSort( arr, maxDigit ) {
+            var dev = 1, mod = 10, counter = [];
+            
+            for( var i = 0; i < maxDigit; i++, dev *= 10, mod *= 10 ) {
+                for( var j = 0,len = arr.length; j < len; j++ ) {
+                    var bucket = parseInt((arr[j]%mod)/dev);
+                    if( !counter[bucket] ) {
+                        counter[bucket] = [];
+                    }
+                    counter[bucket].push(arr[j]);
+                }
+
+                var pos = 0;
+                for( var k = 0, counter_len = counter.length; k < counter_len; k++ ) {
+                    if(counter[k]) {
+                        var value = null;
+                        while(value = counter[k].shift()) {
+                                arr[pos++] = value; 
+                        }
+                    }
+                }
+            }
+
+            return arr;
+        }
+
+        console.log(radixSort(arr, 3));
+    </script>
+</body>
+</html>
